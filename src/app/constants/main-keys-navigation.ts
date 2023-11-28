@@ -1,0 +1,5 @@
+export default {
+  AUTH_STACK: "AUTH_STACK",
+  HOME_STACK: "HOME_STACK",
+  SETTINGS_STACK: "SETTINGS_STACK",
+} as const;
