@@ -1,16 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { useEffect } from "react";
 
 import AuthStack from "app/navigations/auth-stack";
 import HomeStack from "app/navigations/home-stack";
 import SettingStack from "app/navigations/setting-stack";
 import { MainTabParamList } from "typescript/navigator";
-import { useAppSelector, useAppDispatch } from "app/hooks/store";
-import { getToken } from "services/asyncStorageService";
-import { login, setStatus } from "app/store/auth/slice";
+
 import KEY_STACK from "app/constants/main-keys-navigation";
 import { LoadingComponent } from "app/components/Loading";
+import { useAuth } from "app/hooks/useAuth";
+import { useTheme } from "app/hooks/useTheme";
 
 /* 
     HOME STACK - protected
@@ -24,18 +23,8 @@ import { LoadingComponent } from "app/components/Loading";
 const MainStack = createStackNavigator<MainTabParamList>();
 
 export default function AuthStackContainer() {
-  const { status } = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
-
-  const getAuthStatus = async () => {
-    const auth = await getToken();
-    if (auth) dispatch(login(auth));
-    dispatch(setStatus("not-authenticated"));
-  };
-
-  useEffect(() => {
-    getAuthStatus();
-  }, []);
+  const { status } = useAuth();
+  const { theme } = useTheme();
 
   if (status === "checking") return <LoadingComponent />;
 
@@ -44,7 +33,7 @@ export default function AuthStackContainer() {
       <MainStack.Navigator
         screenOptions={{
           cardStyle: {
-            backgroundColor: "white",
+            backgroundColor: theme.colors.background,
           },
           headerShown: false,
         }}

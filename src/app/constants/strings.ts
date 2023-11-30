@@ -1,5 +1,6 @@
 export const GLOBAL_STRINGS = {
   KEY_AUTH: "__genesis__agricola__auth__",
+  KEY_THEME: "__genesis__agricola__theme__",
   USER: "Usuario",
   PASSWORD: "Contraseña",
   APP_NAME: "Genesis Agricola",

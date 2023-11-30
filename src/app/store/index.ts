@@ -2,7 +2,8 @@ import { configureStore, type Middleware } from "@reduxjs/toolkit";
 import { storeToken, removeToken } from "services/asyncStorageService";
 import { database } from "./watermelon";
 import authReducer from "./auth/slice";
-import strings from "app/constants/strings";
+import uiReducer from "./ui/slice";
+import { GLOBAL_STRINGS } from "app/constants/strings";
 
 const TypeActions = {
   LOGIN: "auth/login",
@@ -20,7 +21,7 @@ const persistanceLocalStorageMiddleware: Middleware =
     }
 
     if (type === TypeActions.LOGOUT) {
-      removeToken(strings.KEY_AUTH);
+      removeToken(GLOBAL_STRINGS.KEY_AUTH);
     }
   };
 
@@ -39,6 +40,7 @@ const syncWithDatabaseMiddleware: Middleware =
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    ui: uiReducer,
   },
   middleware: [persistanceLocalStorageMiddleware, syncWithDatabaseMiddleware],
 });

@@ -7,9 +7,11 @@ import { useState } from "react";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { ConfigStackParamList } from "typescript/navigator";
 import KEY_STACK from "app/constants/settings-keys-navigation";
+import { useAppDispatch, useAppSelector } from "app/hooks/store";
+import { useTheme } from "app/hooks/useTheme";
 
 export const SettingStackPage = () => {
-  const [value, setValue] = useState(false);
+  const { toggleSwitch, value } = useTheme();
 
   const navigation = useNavigation<NavigationProp<ConfigStackParamList>>();
 
@@ -34,9 +36,7 @@ export const SettingStackPage = () => {
         <Item
           title={GLOBAL_STRINGS.DARK_MODE}
           icon="moon-outline"
-          onPress={() => {
-            setValue(!value);
-          }}
+          onPress={toggleSwitch}
           switch
           value={value}
         />
@@ -50,10 +50,12 @@ interface ContainerProps {
 }
 
 const Container = (props: ContainerProps) => {
+  const { theme } = useAppSelector((state) => state.ui);
+
   return (
     <View
       style={{
-        backgroundColor: colors.light,
+        backgroundColor: theme.colors.card,
         padding: 10,
         borderRadius: 5,
         marginBottom: 20,
@@ -79,6 +81,8 @@ const Item = (props: ItemProps) => {
 };
 
 const ItemWithNavigation = (props: ItemProps) => {
+  const { theme } = useAppSelector((state) => state.ui);
+
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
       <View style={styles.itemContainer}>
@@ -88,13 +92,15 @@ const ItemWithNavigation = (props: ItemProps) => {
             alignItems: "center",
           }}
         >
-          <Ionicons name={props.icon} size={16} color={colors.textPrimary} />
-          <Text style={styles.textItem}>{props.title}</Text>
+          <Ionicons name={props.icon} size={16} color={theme.colors.text} />
+          <Text style={[styles.textItem, { color: theme.colors.text }]}>
+            {props.title}
+          </Text>
         </View>
         <Ionicons
           name="chevron-forward-outline"
           size={16}
-          color={colors.textPrimary}
+          color={theme.colors.text}
         />
       </View>
     </TouchableOpacity>
@@ -102,6 +108,8 @@ const ItemWithNavigation = (props: ItemProps) => {
 };
 
 const ItemWithSwitch = (props: ItemProps) => {
+  const { theme } = useAppSelector((state) => state.ui);
+
   return (
     <View style={[styles.itemContainer]}>
       <View
@@ -110,15 +118,17 @@ const ItemWithSwitch = (props: ItemProps) => {
           alignItems: "center",
         }}
       >
-        <Ionicons name={props.icon} size={16} color={colors.textPrimary} />
-        <Text style={styles.textItem}>{props.title}</Text>
+        <Ionicons name={props.icon} size={16} color={theme.colors.text} />
+        <Text style={[styles.textItem, { color: theme.colors.text }]}>
+          {props.title}
+        </Text>
       </View>
       <Switch
         trackColor={{
-          false: colors.textPrimary,
-          true: colors.primary,
+          false: theme.colors.primary,
+          true: theme.colors.background,
         }}
-        thumbColor={colors.light}
+        thumbColor={theme.colors.border}
         ios_backgroundColor={colors.light}
         onValueChange={props.onPress}
         value={props.value}
@@ -137,11 +147,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 10,
+    paddingVertical: 7,
   },
   textItem: {
     marginLeft: 5,
     fontSize: 15,
-    color: colors.textPrimary,
   },
 });

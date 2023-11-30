@@ -8,7 +8,7 @@ export const globalTheme = StyleSheet.create({
   formContainer: {
     paddingHorizontal: 30,
     justifyContent: "center",
-    height: 600,
+    height: "100%",
     marginBottom: 50,
   },
   title: {

@@ -6,16 +6,23 @@ import { SettingStackPage } from "features/Settings/stack-navigation/pages";
 import { GLOBAL_STRINGS } from "app/constants/strings";
 import { URLConfigPage } from "features/Settings/URLConfig/pages";
 import { QRScanPage } from "features/Settings/URLConfig/pages/QRScann";
+import { useAppSelector } from "app/hooks/store";
 
 const Stack = createStackNavigator<ConfigStackParamList>();
 
 export default function SettingStackContainer() {
+  const { theme } = useAppSelector((state) => state.ui);
+
   return (
     <Stack.Navigator
       screenOptions={{
         cardStyle: {
-          backgroundColor: "white",
+          backgroundColor: theme.colors.background,
         },
+        headerStyle: {
+          backgroundColor: theme.colors.card,
+        },
+        headerTintColor: theme.colors.text,
       }}
     >
       <Stack.Screen

@@ -38,12 +38,11 @@ export const LoginScreen = () => {
 
           <Logo />
 
-          <Text style={globalTheme.title}>{GLOBAL_STRINGS.APP_NAME}</Text>
+          <Text>{GLOBAL_STRINGS.APP_NAME}</Text>
 
           <Text style={globalTheme.label}>{GLOBAL_STRINGS.USER}:</Text>
           <TextInput
             placeholder={GLOBAL_STRINGS.USER_ENTER}
-            underlineColorAndroid={colors.gray}
             style={[
               globalTheme.inputField,
               Platform.OS === "ios" && globalTheme.inputFieldIOS,
